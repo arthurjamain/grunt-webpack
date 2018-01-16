@@ -56,7 +56,12 @@ module.exports = (grunt) => {
         }
 
         if (typeof opts.storeStatsTo === 'string') {
-          grunt.config.set(opts.storeStatsTo, stats.toJson(opts.stats));
+          if (opts.stats && opts.stats.raw) {
+            grunt.config.set(opts.storeStatsTo, stats);
+            grunt.config.set(opts.storeStatsTo + 'Options', opts.stats);
+          } else {
+            grunt.config.set(opts.storeStatsTo, stats.toJson(opts.stats));
+          }
         }
 
         if (stats.hasErrors()) {
